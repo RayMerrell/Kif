@@ -31,7 +31,7 @@ void main(){
     vec2 mouse = uMouse.xy / uResolution.xy;
 
     vec3 col = vec3(0);
-
+   float scale=1.0;
     uv*=1.25;
     uv.y -= tan((5.0/6.0)*3.1415*0.1);
     uv.x = abs(uv.x);
@@ -39,10 +39,9 @@ void main(){
     float dist = dot(uv-vec2(0.5,0.00), norm);
     uv -= norm * max(0.0,dist) * 2.0;
 
-    //col +=smoothstep (1.0/uResolution.y, 0.0, abs(dist));
 
-    norm = Norm((2.0/3.0)*3.1415);
-    float scale=1.0;
+    norm = Norm((fTime/20.0) * (2.0/3.0)*3.1415);
+ 
     uv.x += 0.5;  
     for (int i = 0; i<5;i++){
         uv *= 3.0;
@@ -62,7 +61,7 @@ void main(){
     //col += smoothstep(1.0/uResolution.y,0.0, dist/scale);
     uv/=scale; 
     col += texture(uTexture, uv *2.0 - fTime * 0.09).rgb;
-
+    uv = (gl_FragCoord.xy-0.5*uResolution.xy)/uResolution.y;
     fragColour = vec4(col, 1.0);
 }
 `;
@@ -166,7 +165,7 @@ const imageLoaded=()=>{
 	if (gc.INVALID_ENUM == true) alert ("Invalid Enum");
 //	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_WRAP_S, gc.CLAMP_TO_EDGE); 
 //	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_WRAP_T, gc.CLAMP_TO_EDGE);
-	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_MAG_FILTER, gc.NEAREST);
+	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_MAG_FILTER, gc.LINEAR);
 	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_MIN_FILTER, gc.LINEAR_MIPMAP_LINEAR);
 
     drawCanvas();
