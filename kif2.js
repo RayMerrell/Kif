@@ -55,8 +55,8 @@ void main(){
 
     }
     
-    //dist = uv.x;
-    //col += 0.125*smoothstep(1.0/uResolution.y,0.0, dist/scale);
+    dist = uv.x;
+    col += 0.03*smoothstep(1.0/uResolution.y,0.0, dist/scale);
     dist = length(uv - vec2(clamp(uv.x, -1.0, 1.0), 0.0));
     //col += smoothstep(1.0/uResolution.y,0.0, dist/scale);
     uv/=scale; 
@@ -125,8 +125,6 @@ const pixels = new Uint8Array([
     136,0,68,
 
 ]);
-182, 73, 78, 133, 182, 73,73, 182, 177,122, 73, 182
-
 
 //mouse movement
 let mouseX=0;
@@ -163,17 +161,11 @@ const imageLoaded=()=>{
 	if (gc.INVALID_OPERATION == true) alert ("Invalid op");
 	if (gc.INVALID_VALUE == true) alert ("Invalid value");
 	if (gc.INVALID_ENUM == true) alert ("Invalid Enum");
-//	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_WRAP_S, gc.CLAMP_TO_EDGE); 
-//	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_WRAP_T, gc.CLAMP_TO_EDGE);
 	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_MAG_FILTER, gc.LINEAR);
 	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_MIN_FILTER, gc.LINEAR_MIPMAP_LINEAR);
 
     drawCanvas();
 }
-//canvas.addEventListener('mousemove', setMousePos);
-window.addEventListener('resize', drawCanvas);
+
 texture.image = document.getElementById('backgroundimage');
 texture.onLoad = imageLoaded();
-
-//texture.image.addEventListener('onload', imageLoaded);
-//drawCanvas();
