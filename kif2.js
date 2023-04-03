@@ -61,7 +61,7 @@ void main(){
     dist = length(uv - vec2(clamp(uv.x, -1.0, 1.0), 0.0));
     //col += smoothstep(1.0/uResolution.y,0.0, dist/scale);
     uv/=scale; 
-    col += texture(uTexture, uv *2.0 - fTime * 0.03).rgb;
+    col += texture(uTexture, uv *2.0 - fTime * 0.09).rgb;
 
     fragColour = vec4(col, 1.0);
 }
@@ -160,8 +160,14 @@ const imageLoaded=()=>{
     console.log("image in");
     gc.bindTexture(gc.TEXTURE_2D, texture);
     gc.texImage2D(gc.TEXTURE_2D, 0, gc.RGB,2048,1367,0,gc.RGB, gc.UNSIGNED_BYTE, texture.image);
-    gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_MIN_FILTER, gc.NEAREST);
-    gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_MAG_FILTER, gc.NEAREST);
+	gc.generateMipmap(gc.TEXTURE_2D);
+	if (gc.INVALID_OPERATION == true) alert ("Invalid op");
+	if (gc.INVALID_VALUE == true) alert ("Invalid value");
+	if (gc.INVALID_ENUM == true) alert ("Invalid Enum");
+//	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_WRAP_S, gc.CLAMP_TO_EDGE); 
+//	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_WRAP_T, gc.CLAMP_TO_EDGE);
+	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_MAG_FILTER, gc.NEAREST);
+	gc.texParameteri(gc.TEXTURE_2D, gc.TEXTURE_MIN_FILTER, gc.LINEAR_MIPMAP_LINEAR);
 
     drawCanvas();
 }
